@@ -1,0 +1,2 @@
+# Project-Pre-final-C-Visual-Novel---Dispatch-Decision-Engine
+Design and create the functional structure for a simple, text-based visual novel (VN) featuring the character Robert from Dispatch. The program must incorporate at least five distinct decision points, where user input (a choice) determines the flow of the story and updates character relationship variables using C++ functions and Boolean logic.
