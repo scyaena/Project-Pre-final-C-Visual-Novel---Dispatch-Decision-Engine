@@ -1,25 +1,23 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-// GLOBAL VARIABLES
-// These variables store important decisions and will be used by different scenes
+bool gameFailed = false;
+bool choseMercy = false;
+bool romanceActive = false;
 
-// follows Robert's choice out of mercy.
-bool isMerciful = false;
+int blazerReputation = 0;
 
-// determines if the romance path is active.
-bool isRomanticTensionActive = false;
+bool streetFightSurvived = true;
+string toxicResolution = "" ;
 
-// follows Blonde Blazer's recollection of Robert
-int Blazer_Impression_Score = 0;
-
-// SCENE 1: APARTMENT INTERROGATION
+//SCENE 1: APARTMENT INTERROGATION
 // Moral decision that affects Robert's personality
 
-void scene_interrogation() {
+void sceneApartmentInterrogation(){
     int choice;
 
-    cout << "\n--- Apartment Interrogation ---\n";
+    cout << "\n--- Scene 1: Apartment Interrogation ---\n";
     cout << "A criminal is hanging from the building.\n";
     cout << "1. Pull him back\n";
     cout << "2. Let him drop\n";
@@ -28,22 +26,22 @@ void scene_interrogation() {
 
     // If player chooses mercy
     if (choice == 1) {
+        choseMercy = true;
         cout << "You pull the criminal back to safety.\n";
         cout << "You show restraint and compassion.\n";
-        isMerciful = true; // Save merciful path
-    }
+     } 
     // If player chooses brutality
-    else {
+     else {
+        choseMercy = false;
         cout << "You let go. The criminal falls.\n";
         cout << "Fear spreads across the city.\n";
-        isMerciful = false; // Save ruthless path
-    }
+           }
 }
 
 // SCENE 2: STREET FIGHT
 // Teaches immediate consequences of choices
 
-void scene_street_fight() {
+void sceneStreetF() {
     int choice;
 
     cout << "\n--- Street Fight ---\n";
@@ -55,11 +53,14 @@ void scene_street_fight() {
 
     // Wrong tactical decision
     if (choice == 1) {
+        streetFightSurvived = false;
+        gameFailed = true;
         cout << "You get countered and hit with a crowbar.\n";
         cout << "You barely manage to escape.\n";
     }
     // Correct tactical decision
     else {
+        streetFightSurvived = true;
         cout << "Your punch lands cleanly.\n";
         cout << "The attacker is knocked out.\n";
     }
@@ -68,135 +69,131 @@ void scene_street_fight() {
 // SCENE 3: BAR SCENE WITH FLAMBAE
 // Affects public perception and relationships
 
-void scene_bar_flambae() {
+void sceneBarFlambae(){
+
+   if(gameFailed) return;
     int choice;
+      
+        cout << "\n----Scene 3: SuperHero Bar----\n";
+        cout << "Flambae erupts in flame during argument\n";
+        cout << "1. Throw water\n";
+        cout << "2. Throw alcohol\n";
+        cin >> choice;
 
-    cout << "\n--- Superhero Bar Scene ---\n";
-    cout << "Flambae loses control of his flames.\n";
-    cout << "1. Throw water\n";
-    cout << "2. Throw alcohol\n";
-    cout << "Enter your choice: ";
-    cin >> choice;
-
-    // Safer but less memorable option
-    if (choice == 1) {
-        cout << "The flames die down painfully.\n";
-        Blazer_Impression_Score += 1; // Small impression
-    }
-    // Dangerous but unforgettable option
-    else {
-        cout << "The fire explodes into chaos.\n";
-        Blazer_Impression_Score += 3; // Strong impression
-    }
+  if (choice == 1){
+     blazerReputation += 1;
+     cout << "The flame sputter out. Awkward silence.\n";
+   }
+else{
+    blazerReputation += 3;
+    cout << "Whoosh! Flames roar skyward.\n" ;
+    cout << "Blonde Blazer definitely noties.\n";
+ }
 }
 
-// SCENE 4: BILLBOARD SCENE (ROMANCE ROUTE)
-// Determines emotional connection
+//SCCENE 4: BILLBOARD MOMENT
 
-void scene_billboard() {
-    int choice;
+  void sceneBillboardMoment(){
+     if(gameFailed) return;
 
-    cout << "\n--- Billboard Scene ---\n";
-    cout << "You share a quiet moment with Blonde Blazer.\n";
-    cout << "1. Kiss her\n";
-    cout << "2. Let the moment pass\n";
-    cout << "Enter your choice: ";
-    cin >> choice;
+     int choice;
 
-    // Romantic choice
-    if (choice == 1) {
-        cout << "You kiss her.\n";
-        cout << "A deeper connection begins.\n";
-        isRomanticTensionActive = true;
-    }
-    // Reserved choice
-    else {
-        cout << "You let the moment pass.\n";
-        cout << "The tension remains.\n";
-        isRomanticTensionActive = false;
-    }
+        cout << "\n----Scene 4: BillBoard Moment-----\n";
+        cout << "City lights glow beneath you both\n";
+        cout << "1. Lean in for a kiss\n";
+        cout << "2. Let the moment pass\n";
+        cin >> choice;
+
+   if(choice == 1){
+
+
+     romanceActive = true;
+     blazerReputation += 2;
+
+      cout << "A brief, electric kiss";
+}
+    else{
+        romanceActive = false;
+         cout << "The moment lingers, unspoken.";
+  }
 }
 
-// SCENE 5: FINAL COMBAT WITH TOXIC
-// Uses previous moral decisions
-void scene_combat_toxic() {
-    int choice;
+//Scene 5
 
-    cout << "\n--- Final Combat: Toxic ---\n";
-    cout << "Toxic is defeated but still dangerous.\n";
-    cout << "1. Punt him away\n";
-    cout << "2. Stomp him\n";
-    cout << "Enter your choice: ";
-    cin >> choice;
+  void sceneFightToxic(){
 
-    // Flashy and creative approach
-    if (choice == 1) {
-        cout << "You punt Toxic away from the fight.\n";
 
-        // Dialogue changes based on mercy
-        if (isMerciful) {
-            cout << "You avoid unnecessary violence.\n";
-        } else {
-            cout << "You send a clear warning.\n";
-        }
-    }
-    // Brutal and efficient approach
-    else {
-        cout << "You stomp Toxic into the ground.\n";
+   if(gameFailed) return;
 
-        // Dialogue changes based on mercy
-        if (isMerciful) {
-            cout << "This clashes with your earlier compassion.\n";
-        } else {
-            cout << "Your reputation becomes terrifying.\n";
-        }
-    }
+ int choice;
+     cout << "\n-----Scene 5: Fight With Toxic-----\n";
+     cout << "Toxic is down. Your move?\n";
+     cout << "1. Punt him\n";
+     cout << "2. Stomp him\n";
+     cin >> choice;
+
+   if(choice == 1){
+       toxicResolution = choseMercy;
+       cout << "A controlled punt sends him sliding away\n";
+       cout << "You launch him like a football\n";
+ }
+   else{
+         toxicResolution = choseMercy;
+         cout << "You stop short of permament damage\n";
+         cout << "The stomp echoes with finality.\n";
+ }
+
+
+      cout << toxicResolution;
 }
 
-// EPILOGUE
-// Final summary based on all choices
-void epilogue_summary() {
-    cout << "\n--- Epilogue ---\n";
+//Epilogue
 
-    // Moral ending
-    if (isMerciful) {
-        cout << "Robert becomes a symbol of compassionate leadership.\n";
-    } else {
-        cout << "Robert is known for ruthless efficiency.\n";
-    }
+     void epilogue(){
+        cout << "\n----Epilogue----\n";
 
-    // Relationship outcome
-    if (Blazer_Impression_Score >= 3) {
-        cout << "Blonde Blazer remembers your actions clearly.\n";
-    } else {
-        cout << "Your presence fades quietly into memory.\n";
-    }
+     if(gameFailed){
+         cout << "Your story ends early";
 
-    // Romance outcome
-    if (isRomanticTensionActive) {
-        cout << "A romance slowly begins.\n";
-    } else {
-        cout << "Some feelings remain unspoken.\n";
-    }
-
-    cout << "Robert steps back from the spotlight.\n";
-    cout << "The Pivot from hero to dispatcher is complete.\n";
+   return;
 }
 
-// MAIN FUNCTION
-// Calls all scenes in order
-int main() {
 
-    // Start of the visual novel
-    scene_interrogation();
-    scene_street_fight();
-    scene_bar_flambae();
-    scene_billboard();
-    scene_combat_toxic();
+   if(choseMercy);
+        cout << "Robert walks a path of compassion\n";
+        cout << "Robert values results above all\n";
 
-    // Show final results
-    epilogue_summary();
+   if(romanceActive);
+        cout << "A spark remains with Blonde Blazer\n";
+        cout << "The connection fades into possibility\n";
 
-    return 0;
+        cout << "Blazer Reputation Score: " << blazerReputation << "\n";
+
+    if(blazerReputation >= 3){
+        cout << "She remembers you vividly";
+  }
+    else if(blazerReputation >= 3){
+        cout << "She finds you unpredictable.";
 }
 
+
+    else{
+       cout << "You barely register\n";
+  }
+
+        cout << "\n---End of Episode 1---\n";
+ }
+
+  int main(){
+    
+    sceneApartmentInterrogation();
+    sceneStreetF();
+    sceneBarFlambae();
+    sceneBillboardMoment();
+    sceneFightToxic();
+    epilogue();
+
+  return 0;
+
+}
+  
